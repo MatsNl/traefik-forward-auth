@@ -1,14 +1,12 @@
-FROM golang:1.10-alpine as builder
+FROM hypriot/rpi-golang as builder
 
 # Setup
 RUN mkdir /app
 WORKDIR /app
 
 # Add libraries
-RUN apk add --no-cache git && \
-  go get "github.com/namsral/flag" && \
-  go get "github.com/op/go-logging" && \
-  apk del git
+RUN go get "github.com/namsral/flag" && \
+  go get "github.com/op/go-logging"
 
 # Copy & build
 ADD . /app/

@@ -141,6 +141,7 @@ func main() {
   cookieSecret := flag.String("cookie-secret", "", "depreciated")
   cookieSecure := flag.Bool("cookie-secure", true, "Use secure cookies")
   domainList := flag.String("domain", "", "Comma separated list of email domains to allow")
+  emailList := flag.String("email", "", "Comma separated list of email addresses to allow")
   direct := flag.Bool("direct", false, "Run in direct mode (use own hostname as oppose to X-Forwarded-Host, used for testing/development)")
 
   flag.Parse()
@@ -182,6 +183,10 @@ func main() {
     domain = strings.Split(*domainList, ",")
   }
 
+  var email []string
+  if *emailList != "" {
+    email = strings.Split(*emailList, ",")
+  }  
   // Setup
   fw = &ForwardAuth{
     Path: fmt.Sprintf("/%s", *path),
@@ -214,6 +219,7 @@ func main() {
     CookieSecure: *cookieSecure,
 
     Domain: domain,
+    Email: email,
 
     Direct: *direct,
   }
